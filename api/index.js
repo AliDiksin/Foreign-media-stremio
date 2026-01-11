@@ -1,5 +1,4 @@
-const { addonBuilder } = require('stremio-addon-sdk')
-const { getCatalogContent, getApiKey } = require('../lib/tmdb')
+const { getCatalogContent } = require('../lib/tmdb')
 
 // Sort options
 const SORT_OPTIONS = ['Top', 'Popular', 'New']
@@ -11,8 +10,8 @@ const catalogExtra = [
 
 // Manifest
 const manifest = {
-    id: 'com.foreign-content.addon.v5',
-    version: '1.0.4',
+    id: 'com.foreign-content.addon.v6',
+    version: '1.0.5',
     name: 'Foreign Movies & TV',
     description: 'Browse non-English content: Indian, Arab, and all Foreign films & TV shows. Sort by Top, Popular, or New.',
     resources: ['catalog'],
@@ -31,21 +30,17 @@ const manifest = {
     behaviorHints: { adult: false, p2p: false }
 }
 
-const builder = new addonBuilder(manifest)
-
-builder.defineCatalogHandler(async function(args) {
+async function handleCatalog(type, id, extra) {
     try {
-        const sortOption = args.extra?.genre || 'Top'
-        const skip = parseInt(args.extra?.skip) || 0
-        const metas = await getCatalogContent(args.id, args.type, sortOption, skip)
+        const sortOption = extra?.genre || 'Top'
+        const skip = parseInt(extra?.skip) || 0
+        const metas = await getCatalogContent(id, type, sortOption, skip)
         return { metas }
     } catch (error) {
-        console.error('[Addon] Error:', error.message)
+        console.error('[Catalog] Error:', error.message)
         return { metas: [] }
     }
-})
-
-const addonInterface = builder.getInterface()
+}
 
 module.exports = async (req, res) => {
     const url = req.url
@@ -65,7 +60,7 @@ module.exports = async (req, res) => {
         const path = url.replace(/^\/|\/$/g, '')
 
         if (path === 'manifest.json' || path === '') {
-            res.json(addonInterface.manifest)
+            res.json(manifest)
             return
         }
 
@@ -85,7 +80,7 @@ module.exports = async (req, res) => {
                 })
             }
 
-            const result = await addonInterface.catalog({ type, id, extra })
+            const result = await handleCatalog(type, id, extra)
             res.json(result)
             return
         }
