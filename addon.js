@@ -2,7 +2,7 @@ const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')
 const { getCatalogContent, getApiKey } = require('./lib/tmdb')
 
 // Sort options available for all catalogs
-const SORT_OPTIONS = ['Top', 'Popular', 'New']
+const SORT_OPTIONS = ['Popular', 'Top', 'New', 'Drama', 'Comedy', 'Action', 'Thriller', 'Romance', 'Horror']
 
 // Extra configuration for catalogs (sorting + pagination)
 const catalogExtra = [
@@ -19,10 +19,10 @@ const catalogExtra = [
 
 // Addon manifest
 const manifest = {
-    id: 'com.foreign-content.addon.v5',
-    version: '1.0.4',
-    name: 'Foreign Movies & TV v5',
-    description: 'Browse non-English content: Indian, Arab, and all Foreign films & TV shows. Sort by Top, Popular, or New.',
+    id: 'com.foreign-content.addon.v7',
+    version: '1.0.6',
+    name: 'Foreign Movies & TV',
+    description: 'Browse non-English content: Indian, Arab, and all Foreign films & TV shows. Filter by Popular, Top, New, or genre.',
     
     resources: ['catalog'],
     types: ['movie', 'series'],
@@ -88,7 +88,7 @@ builder.defineCatalogHandler(async function(args) {
     
     try {
         // Get sort option from genre extra (Stremio uses 'genre' for dropdown options)
-        const sortOption = args.extra?.genre || 'Top'
+        const sortOption = args.extra?.genre || 'Popular'
         
         // Get skip for pagination
         const skip = parseInt(args.extra?.skip) || 0

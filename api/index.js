@@ -1,7 +1,7 @@
 const { getCatalogContent } = require('../lib/tmdb')
 
 // Sort options
-const SORT_OPTIONS = ['Top', 'Popular', 'New']
+const SORT_OPTIONS = ['Popular', 'Top', 'New', 'Drama', 'Comedy', 'Action', 'Thriller', 'Romance', 'Horror']
 
 const catalogExtra = [
     { name: 'genre', options: SORT_OPTIONS, isRequired: false },
@@ -10,10 +10,10 @@ const catalogExtra = [
 
 // Manifest
 const manifest = {
-    id: 'com.foreign-content.addon.v6',
-    version: '1.0.5',
+    id: 'com.foreign-content.addon.v7',
+    version: '1.0.6',
     name: 'Foreign Movies & TV',
-    description: 'Browse non-English content: Indian, Arab, and all Foreign films & TV shows. Sort by Top, Popular, or New.',
+    description: 'Browse non-English content: Indian, Arab, and all Foreign films & TV shows. Filter by Popular, Top, New, or genre.',
     resources: ['catalog'],
     types: ['movie', 'series'],
     idPrefixes: ['tt'],
@@ -32,7 +32,7 @@ const manifest = {
 
 async function handleCatalog(type, id, extra) {
     try {
-        const sortOption = extra?.genre || 'Top'
+        const sortOption = extra?.genre || 'Popular'
         const skip = parseInt(extra?.skip) || 0
         const metas = await getCatalogContent(id, type, sortOption, skip)
         return { metas }
