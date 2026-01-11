@@ -1,0 +1,28 @@
+{
+  "name": "foreign-content-addon",
+  "version": "1.0.0",
+  "description": "Stremio addon for browsing non-English movies and TV shows: Korean, Indian, Arab, and all Foreign content",
+  "main": "addon.js",
+  "scripts": {
+    "start": "node addon.js"
+  },
+  "keywords": [
+    "stremio",
+    "addon",
+    "foreign",
+    "korean",
+    "indian",
+    "bollywood",
+    "arab",
+    "movies",
+    "tv-shows",
+    "tmdb"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "freekeys": "^0.0.4",
+    "stremio-addon-sdk": "^1.6.10"
+  }
+}
