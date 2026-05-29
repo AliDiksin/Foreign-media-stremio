@@ -51,16 +51,18 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
 
     if (req.method === 'OPTIONS') {
-        res.status(200).end()
+        res.statusCode = 200
+        res.end()
         return
     }
 
     try {
-        // Parse the path
-        const path = url.replace(/^\/|\/$/g, '')
+        // Parse the path (remove query string if present)
+        const path = url.split('?')[0].replace(/^\/|\/$/g, '')
 
         if (path === 'manifest.json' || path === '') {
-            res.json(manifest)
+            res.statusCode = 200
+            res.end(JSON.stringify(manifest))
             return
         }
 
@@ -81,15 +83,18 @@ module.exports = async (req, res) => {
             }
 
             const result = await handleCatalog(type, id, extra)
-            res.json(result)
+            res.statusCode = 200
+            res.end(JSON.stringify(result))
             return
         }
 
         // Not found
-        res.status(404).json({ error: 'Not found' })
+        res.statusCode = 404
+        res.end(JSON.stringify({ error: 'Not found' }))
 
     } catch (error) {
         console.error('[Vercel] Error:', error)
-        res.status(500).json({ error: error.message })
+        res.statusCode = 500
+        res.end(JSON.stringify({ error: error.message }))
     }
 }
