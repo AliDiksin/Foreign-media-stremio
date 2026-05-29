@@ -11,7 +11,7 @@ const catalogExtra = [
 // Manifest
 const manifest = {
     id: 'com.foreign-content.addon.v7',
-    version: '1.0.6',
+    version: '1.0.7',
     name: 'Foreign Movies & TV',
     description: 'Browse non-English content: Indian, Arab, and all Foreign films & TV shows. Filter by Popular, Top, New, or genre.',
     resources: ['catalog'],
